@@ -1,0 +1,19 @@
+name: visage:1091
+clusters:
+  visage:
+    services:
+      breed:
+        name: visage:1091
+        deployable: maninderjit/visage:1091
+        ports:
+          webport: 8080/http
+      scale:
+        cpu: 0.2       
+        memory: 64MB
+        instances: 3
+      health_checks:
+        initial_delay: 10s
+        port: webport
+        timeout: 5s
+        interval: 10s
+        failures: 10     

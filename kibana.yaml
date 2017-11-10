@@ -1,0 +1,47 @@
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    app: logging
+    id: kibana-logging
+  name: kibana-logging
+  namespace: kube-system
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 5601
+  selector:
+    app: logging
+    id: kibana-logging
+---
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: kibana-logging
+  namespace: kube-system
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: logging
+        id: kibana-logging 
+    spec:
+      containers:
+        - name: kibana-logging
+          env:
+            - name: ELASTICSEARCH_URL
+              value: http://esearch5-elasticsearch-client:9200
+            # - name: SERVER_NAME
+              # value: kibana.example.org
+            # - name: SERVER_BASEPATH
+              # value: /api/v1/proxy/namespaces/kube-system/services/kibana-logging
+            - name: XPACK_MONITORING_ENABLED
+              value: "false"
+            - name: XPACK_SECURITY_ENABLED
+              value: "false"
+          # image: kibana
+          image: docker.elastic.co/kibana/kibana:5.4.2
+          ports:
+            - containerPort: 5601
