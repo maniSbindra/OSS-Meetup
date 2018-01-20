@@ -16,7 +16,7 @@ spec:
         app: visage
     spec:
       containers:
-      - name: visage-pod
+      - name: visage-container
         image: maninderjit/visage:1089
         env:
         - name: FACE_API_KEY
@@ -30,10 +30,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: visage-ext-svc
+  name: visage-svc
+  # annotations:
+    # external-dns.alpha.kubernetes.io/hostname: manitestdomain.com
 spec:
   # type: LoadBalancer
   ports:
-  - port: 8080
+  - port: 80
+    targetPort: 8080
   selector:
     app: visage

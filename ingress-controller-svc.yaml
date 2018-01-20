@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: 2018-01-19T13:09:00Z
+  labels:
+    app: nginx-ingress
+    chart: nginx-ingress-0.8.7
+    component: controller
+    heritage: Tiller
+    release: jazzed-hound
+  name: jazzed-hound-nginx-ingress-controller
+  namespace: default
+  resourceVersion: "43084"
+  selfLink: /api/v1/namespaces/default/services/jazzed-hound-nginx-ingress-controller
+  uid: ea338560-fd19-11e7-973a-000d3aa388a2
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: manitestdomain.com
+spec:
+  clusterIP: 10.0.44.128
+  externalTrafficPolicy: Cluster
+  ports:
+  - name: http
+    nodePort: 32088
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  - name: https
+    nodePort: 31053
+    port: 443
+    protocol: TCP
+    targetPort: 443
+  selector:
+    app: nginx-ingress
+    component: controller
+    release: jazzed-hound
+  sessionAffinity: None
+  type: LoadBalancer
+# status:
+#   loadBalancer:
+#     ingress:
+#     - ip: 52.187.12.50
