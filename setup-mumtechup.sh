@@ -1,3 +1,12 @@
+# Create resouce group
+az group create -n mumtechup-rg -l southeastasia
+
+# Create ACS Kubernetes Cluster
+az acs create -n acs-workshop-linux -g mumtechup-rg  --orchestrator-type=kubernetes --generate-ssh-keys
+
+# Get Cluster config (for Kubectl)
+az acs get-credentials -n acs-workshop-linux -g mumtechup-rg
+
 # Setup Elastic search using helm chart
 # helm install --name esearch4 incubator/elasticsearch --namespace kube-system --set client.replicas=1 --set master.replicas=2 --set data.replicas=1 --set data.persistence.enabled=false
 
@@ -52,3 +61,7 @@ vamp describe gateway visage/visage/webport
 vamp update-gateway visage/visage/webport --weights visage/visage/visage:1089/webport@70%,visage/visage/visage:1091/webport@30%
 
 vamp update-gateway visage/visage/webport --weights visage/visage/visage:1089/webport@50%,visage/visage/visage:1091/webport@50%
+
+
+# cleanup - Delete Resource Group
+az group delete -n mumtechup-rg
